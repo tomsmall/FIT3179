@@ -1,22 +1,148 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <!-- Import Vega & Vega-Lite (does not have to be from CDN) -->
-  <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
-  <script src="https://cdn.jsdelivr.net/npm/vega-lite@4"></script>
-  <!-- Import vega-embed -->
-  <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+    <title>FIT3179: Week 10 Homework</title>
+    <meta charset="utf-8" />
+
+    <script src="https://cdn.jsdelivr.net/npm/vega@5.17.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-lite@4.17.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.12.2"></script>
+
+    <style media="screen">
+        /* Add space between Vega-Embed links  */
+        .vega-actions a {
+            margin-right: 5px;
+        }
+    </style>
+
+
 </head>
 <body>
+<h1>Global Access to Telecommunications & The Internet</h1>
+<h3>Homework Week 10</h3>
+<h4>Jupinder Grewal (28755960)</h4>
+<!-- Container for the visualization -->
 
-<div id="vis"></div>
+<div id="vis2"></div>
+<div id="vis1"></div>
 
-<script type="text/javascript">
-  var spec = "https://tomsmall.github.io/FIT3179/visualization.vl.json";
-  vegaEmbed('#vis', spec).then(function(result) {
-    // Access the Vega view instance (https://vega.github.io/vega/docs/api/view/) as result.view
-  }).catch(console.error);
+
+
+<script>
+const datasetURL="https://raw.githubusercontent.com/tomsmall/FIT3179/main/transformedData.csv"
+
+    const vlSpec1 = {
+  "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
+  "title": "Maximum Temperatures by Capital City (2017)",
+  "width": 500,
+  "height": 200,
+  "data": {
+    "url": datasetURL
+  },
+  "transform": [
+    {"filter": {"field": "Year", "equal": 2017}}
+  ],
+  "mark": "circle",
+  "encoding": {
+    "x": {
+      "field": "MaxTemp",
+      "type": "quantitative",
+      "title": "Maximum Temp",
+      "axis": {"tickCount": 5}
+    },
+    "y": {"field": "Location", "type": "nominal"},
+    "color": {"field": "Location", "type": "nominal"},
+    "tooltip": [
+      {
+        "field": "MaxTemp",
+        "type": "quantitative"},
+      { "field": "Date"}
+    ]
+  }
+}
+
+
+    const vlSpec2= {
+        "$schema":"https://vega.github.io/schema/vega-lite/v4.json",
+        "title":"Comparing Mobile plans vs Fixed Broadband",
+        "width":500,
+        "height":500,
+        "data": {
+            "url":datasetURL
+        },
+        "transform": [
+            {"filter": {"field": "Time", "equal": 2017}},
+            {"filter": {"field": "Mobile cellular subscriptions (per 100 people)", "gt": 0}},
+            {"filter": {"field": "Fixed broadband subscriptions (per 100 people)","gt": 0}},
+            {"filter": "Continent_Selection == null || datum.Continent == Continent_Selection"}
+        ],
+        "mark": "circle",
+        "params": [
+            {
+                "name": "Continent_Selection",
+                "bind": {
+                    "input": "select",
+                    "options": [
+                        null,
+                        "Africa",
+                        "Americas",
+                        "Asia",
+                        "Europe",
+                        "Oceania"
+                    ],
+                    "labels": [
+                        "All",
+                        "Africa",
+                        "Americas",
+                        "Asia",
+                        "Europe",
+                        "Oceania"
+                    ],
+                    "name": "Select Continent"
+                }
+            }
+        ],
+        "encoding": {
+            "y": {
+                "field": "Mobile cellular subscriptions (per 100 people)",
+                "type": "quantitative",
+                "scale": {"type": "linear"},
+                "axis": {"tickCount": 8},
+                "title": "Mobile Plans (per 100 people)"
+            },
+            "x":{
+                "field": "Fixed broadband subscriptions (per 100 people)",
+                "type":"quantitative",
+                "scale": {"type": "log"},
+                "axis": {"tickCount": 4},
+                "title": "Broadband Plans (per 100 people)"
+            },
+            "color": {"field": "Continent", "type": "nominal"},
+            "size": {
+                "field": "Population, total",
+                "type": "quantitative",
+                "scale":{
+                    "type": "threshold",
+                    "domain": [1e6,1e7,5e7,1e8,5e8],
+                    "range": [10, 50, 150, 200, 300, 400]
+                },
+                "legend": {"format": ".1s", "title": "Population"}
+            },
+            "opacity": {"value": 0.6},
+            "tooltip": [
+                {"field": "Country", "type": "nominal"},
+                {"field": "Mobile cellular subscriptions (per 100 people)", "type": "quantitative", "title": "Mobile Cell Subscriptsions"},
+                {"field": "Fixed broadband subscriptions (per 100 people)", "type": "quantitative", "title": "Broadband Subscriptsions"},
+                {"field": "Population, total", "type":"quantitative"}
+            ]
+        }
+
+    }
+
+
+    // Embed the visualization in the container with id `vis`
+    vegaEmbed('#vis1', vlSpec1);
+    vegaEmbed('#vis2', vlSpec2);
 </script>
-  
 </body>
 </html>
