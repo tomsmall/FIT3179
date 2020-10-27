@@ -63,81 +63,70 @@ const datasetURL="https://raw.githubusercontent.com/tomsmall/FIT3179/main/transf
 
 
     const vlSpec2= {
-        "$schema":"https://vega.github.io/schema/vega-lite/v4.json",
-        "title":"Comparing Mobile plans vs Fixed Broadband",
-        "width":500,
-        "height":500,
-        "data": {
-            "url":datasetURL
-        },
-        "transform": [
-            {"filter": {"field": "Time", "equal": 2017}},
-            {"filter": {"field": "Mobile cellular subscriptions (per 100 people)", "gt": 0}},
-            {"filter": {"field": "Fixed broadband subscriptions (per 100 people)","gt": 0}},
-            {"filter": "Continent_Selection == null || datum.Continent == Continent_Selection"}
-        ],
-        "mark": "circle",
-        "params": [
+  "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
+  "title": "Total Yearly Rainfall",
+  "width": 500,
+  "height": 400,
+  "data": {
+    "url": "https://raw.githubusercontent.com/tomsmall/FIT3179/main/transformedData.csv"
+  },
+  "transform": [
+            {"filter": {"field": "Year", "range": [2009,2016]}},
+            {"filter": "City_Selection == null || datum.Location == City_Selection"}
+  ],
+  "mark": "line",
+  "params": [
             {
-                "name": "Continent_Selection",
+                "name": "City_Selection",
                 "bind": {
                     "input": "select",
                     "options": [
                         null,
-                        "Africa",
-                        "Americas",
-                        "Asia",
-                        "Europe",
-                        "Oceania"
+                        "Adelaide",
+                        "Brisbane",
+                        "Darwin",
+                        "Hobart",
+                        "Melbourne",
+                        "Perth",
+                        "Sydney"
                     ],
                     "labels": [
                         "All",
-                        "Africa",
-                        "Americas",
-                        "Asia",
-                        "Europe",
-                        "Oceania"
+                        "Adelaide",
+                        "Brisbane",
+                        "Darwin",
+                        "Hobart",
+                        "Melbourne",
+                        "Perth",
+                        "Sydney"
                     ],
-                    "name": "Select Continent"
+                    "name": "Select City"
                 }
             }
         ],
-        "encoding": {
-            "y": {
-                "field": "Mobile cellular subscriptions (per 100 people)",
-                "type": "quantitative",
-                "scale": {"type": "linear"},
-                "axis": {"tickCount": 8},
-                "title": "Mobile Plans (per 100 people)"
-            },
-            "x":{
-                "field": "Fixed broadband subscriptions (per 100 people)",
-                "type":"quantitative",
-                "scale": {"type": "log"},
-                "axis": {"tickCount": 4},
-                "title": "Broadband Plans (per 100 people)"
-            },
-            "color": {"field": "Continent", "type": "nominal"},
-            "size": {
-                "field": "Population, total",
-                "type": "quantitative",
-                "scale":{
-                    "type": "threshold",
-                    "domain": [1e6,1e7,5e7,1e8,5e8],
-                    "range": [10, 50, 150, 200, 300, 400]
-                },
-                "legend": {"format": ".1s", "title": "Population"}
-            },
-            "opacity": {"value": 0.6},
-            "tooltip": [
-                {"field": "Country", "type": "nominal"},
-                {"field": "Mobile cellular subscriptions (per 100 people)", "type": "quantitative", "title": "Mobile Cell Subscriptsions"},
-                {"field": "Fixed broadband subscriptions (per 100 people)", "type": "quantitative", "title": "Broadband Subscriptsions"},
-                {"field": "Population, total", "type":"quantitative"}
-            ]
-        }
+  "encoding": {
+    "y": {
+      "field": "Rainfall",
+      "aggregate":"sum",
+      "type": "quantitative",
+      "scale": {"type": "linear"},
+      "axis": {"tickCount": 8},
+      "title": "Total Rainfall (mm)"
+    },
+    "x": {
+      "field": "Year",
+      "type": "nominal",
+      "title": "Year"
+    },
+    "color": {"field": "Location", "type": "nominal", "title":"City"},
+    "tooltip": [
+                {"field": "Location", "type": "nominal", "title":"City"},
+                {"field": "Year", "type": "quantitative"},
+                {"field": "Rainfall", "type":"quantitative", "aggregate":"sum", "title": "Yearly Rainfall (mm)"}
+    ]
+  }
+}
 
-    }
 
 
     // Embed the visualization in the container with id `vis`
