@@ -42,10 +42,11 @@ const datasetURL="https://raw.githubusercontent.com/tomsmall/FIT3179/main/transf
   "transform": [
     {"filter": {"field": "Year", "equal": 2017}}
   ],
-  "mark": "circle",
+  "mark": "tick",
   "encoding": {
     "x": {
       "field": "MaxTemp",
+      "aggregate": "max",
       "type": "quantitative",
       "title": "Maximum Temp",
       "axis": {"tickCount": 5}
