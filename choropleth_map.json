@@ -15,26 +15,26 @@
       "lookup": "properties.STATE_NAME",
       "from": {
         "data": {
-          "url": "https://raw.githubusercontent.com/tomsmall/FIT3179/main/transformedData.csv"
+          "url": "https://raw.githubusercontent.com/tomsmall/FIT3179/main/mapData.csv"
         },
         "key": "State",
-        "fields": ["Rainfall"]
+        "fields": ["Avg_Temp"]
       }
     },
-    {"calculate": "datum.Rainfall + 0.1", "as": "Total Rainfall"}
+    {"calculate": "datum.Avg_Temp + 0.1", "as": "Average Temperature"}
   ],
   "mark": {
     "type": "geoshape"
     },
   "encoding": {
     "color": {
-      "field": "Total Rainfall",
+      "field": "Average Temperature",
       "type": "quantitative",
       "scale": {"type": "log"}
     },
     "tooltip": [
       {"field": "properties.STATE_NAME", "type": "nominal", "title": "State"},
-      {"field": "Rainfall", "type": "quantitative"}
+      {"field": "Avg_Temp", "type": "quantitative"}
     ]
   }
 
