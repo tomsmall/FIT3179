@@ -1,6 +1,6 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
-  "title": "Weather in Australia (2009-2016)",
+  "title": "Average Temperature by State (February 2016)",
   "width": 800,
   "height": 600,
   "projection": {"type": "equirectangular"},
@@ -20,21 +20,23 @@
         "key": "State",
         "fields": ["Avg_Temp"]
       }
-    },
-    {"calculate": "datum.Avg_Temp + 0.1", "as": "Average Temperature"}
+    }
   ],
   "mark": {
     "type": "geoshape"
     },
   "encoding": {
     "color": {
-      "field": "Average Temperature",
+      "field": "Avg_Temp",
       "type": "quantitative",
-      "scale": {"type": "log"}
+      "scale": {"type": "threshold",
+ "domain": [25, 27, 29, 31, 33],
+ "range": ["#fee6ce", "#fdbe85", "#fdae6b", "#fd8d3c", "#e6550d", "#a63603"]
+      }
     },
     "tooltip": [
       {"field": "properties.STATE_NAME", "type": "nominal", "title": "State"},
-      {"field": "Avg_Temp", "type": "quantitative"}
+      {"field": "Avg_Temp", "type": "quantitative", "title": "Average Temperature"}
     ]
   }
 
