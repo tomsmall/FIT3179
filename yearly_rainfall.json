@@ -1,0 +1,65 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
+  "title": "Total Yearly Rainfall (2009-2016)",
+  "width": 500,
+  "height": 400,
+  "data": {
+    "url": "https://raw.githubusercontent.com/tomsmall/FIT3179/main/transformedData.csv"
+  },
+  "transform": [
+    {"filter": {"field": "Year", "range": [2009, 2016]}},
+    {"filter": "City_Selection == null || datum.Location == City_Selection"}
+  ],
+  "mark": "line",
+  "params": [
+    {
+      "name": "City_Selection",
+      "bind": {
+        "input": "select",
+        "options": [
+          null,
+          "Adelaide",
+          "Brisbane",
+          "Darwin",
+          "Hobart",
+          "Melbourne",
+          "Perth",
+          "Sydney"
+        ],
+        "labels": [
+          "All",
+          "Adelaide",
+          "Brisbane",
+          "Darwin",
+          "Hobart",
+          "Melbourne",
+          "Perth",
+          "Sydney"
+        ],
+        "name": "Select City"
+      }
+    }
+  ],
+  "encoding": {
+    "y": {
+      "field": "Rainfall",
+      "aggregate": "sum",
+      "type": "quantitative",
+      "scale": {"type": "linear"},
+      "axis": {"tickCount": 8},
+      "title": "Total Rainfall (mm)"
+    },
+    "x": {"field": "Year", "type": "nominal", "title": "Year"},
+    "color": {"field": "Location", "type": "nominal", "title": "City"},
+    "tooltip": [
+      {"field": "Location", "type": "nominal", "title": "City"},
+      {"field": "Year", "type": "quantitative"},
+      {
+        "field": "Rainfall",
+        "type": "quantitative",
+        "aggregate": "sum",
+        "title": "Yearly Rainfall (mm)"
+      }
+    ]
+  }
+}
