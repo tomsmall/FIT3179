@@ -1,0 +1,41 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
+  "title": "Average Daily Rainfall by State (February 2016)",
+  "width": 800,
+  "height": 600,
+  "projection": {"type": "equirectangular"},
+  "data": {
+    "url": "https://raw.githubusercontent.com/tomsmall/FIT3179/main/aus.topo.json",
+    "format": {
+          "type": "topojson",
+          "feature": "STE11aAust"
+        }
+  },
+  "transform": [{
+      "lookup": "properties.STATE_NAME",
+      "from": {
+        "data": {
+          "url": "https://raw.githubusercontent.com/tomsmall/FIT3179/main/mapData.csv"
+        },
+        "key": "State",
+        "fields": ["Avg_Rainfall"]
+      }
+    }
+  ],
+  "mark": {
+    "type": "geoshape"
+    },
+  "encoding": {
+    "color": {
+      "field": "Avg_Rainfall",
+      "type": "quantitative",
+      "title": "Rainfall (mm)",
+      "scale": {"type": "linear"}
+    },
+    "tooltip": [
+      {"field": "properties.STATE_NAME", "type": "nominal", "title": "State"},
+      {"field": "Avg_Rainfall", "type": "quantitative", "title": "Average Daily Rainfall"}
+    ]
+  }
+
+}
