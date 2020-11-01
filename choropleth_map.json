@@ -29,6 +29,7 @@
     "color": {
       "field": "Avg_Temp",
       "type": "quantitative",
+      "title": "Degrees (Celsius)",
       "scale": {"type": "threshold",
  "domain": [25, 27, 29, 31, 33],
  "range": ["#fee6ce", "#fdbe85", "#fdae6b", "#fd8d3c", "#e6550d", "#a63603"]
