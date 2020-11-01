@@ -23,26 +23,55 @@
 <h4>Thomas Small (29680573)</h4>
 <!-- Container for the visualization -->
 
+<div id="choropleth_map"></div>
 <div id="vis2"></div>
 <div id="vis1"></div>
-<div id="choropleth_map"></div>
-
 
 <script>
 const datasetURL="https://raw.githubusercontent.com/tomsmall/FIT3179/main/transformedData.csv"
 
     const vlSpec1 = {
   "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
-  "title": "Maximum Temperatures by Capital City (2017)",
+  "title": "Maximum Temperatures by Capital City (2009-2016)",
   "width": 500,
   "height": 400,
   "data": {
-    "url": datasetURL
+    "url": "https://raw.githubusercontent.com/tomsmall/FIT3179/main/transformedData.csv"
   },
   "transform": [
-    {"filter": {"field": "Year", "equal": 2017}}
+    {"filter": {"field": "Year", "range": [2009, 2016]}},
+    {"filter": "City_Selection == null || datum.Location == City_Selection"}
   ],
-  "mark": "tick",
+  "mark": "boxplot",
+  "params": [
+    {
+      "name": "City_Selection",
+      "bind": {
+        "input": "select",
+        "options": [
+          null,
+          "Adelaide",
+          "Brisbane",
+          "Darwin",
+          "Hobart",
+          "Melbourne",
+          "Perth",
+          "Sydney"
+        ],
+        "labels": [
+          "All",
+          "Adelaide",
+          "Brisbane",
+          "Darwin",
+          "Hobart",
+          "Melbourne",
+          "Perth",
+          "Sydney"
+        ],
+        "name": "Select City"
+      }
+    }
+  ],
   "encoding": {
     "x": {
       "field": "MaxTemp",
@@ -53,12 +82,7 @@ const datasetURL="https://raw.githubusercontent.com/tomsmall/FIT3179/main/transf
     },
     "y": {"field": "Location", "type": "nominal"},
     "color": {"field": "Location", "type": "nominal"},
-    "tooltip": [
-      {
-        "field": "MaxTemp",
-        "type": "quantitative"},
-      { "field": "Date"}
-    ]
+    "tooltip": [{"field": "MaxTemp", "type": "quantitative"}, {"field": "Date"}]
   }
 }
 
