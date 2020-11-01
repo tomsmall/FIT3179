@@ -1,0 +1,55 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
+  "title": "Maximum Temperatures by Capital City (2009-2016)",
+  "width": 500,
+  "height": 400,
+  "data": {
+    "url": "https://raw.githubusercontent.com/tomsmall/FIT3179/main/transformedData.csv"
+  },
+  "transform": [
+    {"filter": {"field": "Year", "range": [2009, 2016]}},
+    {"filter": "City_Selection == null || datum.Location == City_Selection"}
+  ],
+  "mark": "boxplot",
+  "params": [
+    {
+      "name": "City_Selection",
+      "bind": {
+        "input": "select",
+        "options": [
+          null,
+          "Adelaide",
+          "Brisbane",
+          "Darwin",
+          "Hobart",
+          "Melbourne",
+          "Perth",
+          "Sydney"
+        ],
+        "labels": [
+          "All",
+          "Adelaide",
+          "Brisbane",
+          "Darwin",
+          "Hobart",
+          "Melbourne",
+          "Perth",
+          "Sydney"
+        ],
+        "name": "Select City"
+      }
+    }
+  ],
+  "encoding": {
+    "x": {
+      "field": "MaxTemp",
+      "aggregate": "max",
+      "type": "quantitative",
+      "title": "Maximum Temp",
+      "axis": {"tickCount": 5}
+    },
+    "y": {"field": "Location", "type": "nominal"},
+    "color": {"field": "Location", "type": "nominal"},
+    "tooltip": [{"field": "MaxTemp", "type": "quantitative"}, {"field": "Date"}]
+  }
+}
