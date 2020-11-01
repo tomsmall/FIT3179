@@ -1,0 +1,41 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
+  "title": "Weather in Australia (2009-2016)",
+  "width": 800,
+  "height": 600,
+  "projection": {"type": "equirectangular"},
+  "data": {
+    "url": "https://raw.githubusercontent.com/tomsmall/FIT3179/main/aus.topo.json",
+    "format": {
+          "type": "topojson",
+          "feature": "STE11aAust"
+        }
+  },
+  "transform": [{
+      "lookup": "properties.STATE_NAME",
+      "from": {
+        "data": {
+          "url": "https://raw.githubusercontent.com/tomsmall/FIT3179/main/transformedData.csv"
+        },
+        "key": "State",
+        "fields": ["Rainfall"]
+      }
+    },
+    {"calculate": "datum.Rainfall + 0.1", "as": "Total Rainfall"}
+  ],
+  "mark": {
+    "type": "geoshape"
+    },
+  "encoding": {
+    "color": {
+      "field": "Total Rainfall",
+      "type": "quantitative",
+      "scale": {"type": "log"}
+    },
+    "tooltip": [
+      {"field": "properties.STATE_NAME", "type": "nominal", "title": "State"},
+      {"field": "Rainfall", "type": "quantitative"}
+    ]
+  }
+
+}
