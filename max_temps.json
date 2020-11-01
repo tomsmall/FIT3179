@@ -1,7 +1,8 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
   "title": "Maximum Temperatures by Capital City (2009-2016)",
-  "width": "container",
+  "width": "200",
+  "height": "150",
   "data": {
     "url": "https://raw.githubusercontent.com/tomsmall/FIT3179/main/transformedData.csv"
   },
