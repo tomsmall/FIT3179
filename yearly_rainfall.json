@@ -61,5 +61,6 @@
         "title": "Yearly Rainfall (mm)"
       }
     ]
-  }
+  },
+  "config": {}
 }
