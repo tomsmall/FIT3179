@@ -29,7 +29,10 @@
       "field": "Avg_Rainfall",
       "type": "quantitative",
       "title": "Rainfall (mm)",
-      "scale": {"type": "linear"}
+      "scale": {"type": "threshold",
+ "domain": [0.5, 5],
+ "range": ["#deebf7", "#9ecae1", "#3182bd"]
+      }
     },
     "tooltip": [
       {"field": "properties.STATE_NAME", "type": "nominal", "title": "State"},
